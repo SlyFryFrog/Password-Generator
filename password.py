@@ -6,6 +6,7 @@ get_token = True
 # Variables of available characters for the password
 lowercase = 'abcdefghijklmnopqrstuvwxyz'
 caps = lowercase.upper()
+numbers = '1234567890'
 characters = '!@#$%^&*()'
 
 # Sets default variables and prompts user for input
@@ -60,7 +61,7 @@ def password_gen(x, repeat):
     global password
 
     # Generates a secure random number
-    num = secrets.randbelow(3)
+    num = secrets.randbelow(4)
 
     # Appends a random character from a variable depending on the number previously generated
     if num == 0:
@@ -69,6 +70,10 @@ def password_gen(x, repeat):
 
     elif num == 1:
         temp = secrets.choice(caps)
+        return append_list(temp, x, repeat)
+    
+    elif num == 2:
+        temp = secrets.choice(numbers)
         return append_list(temp, x, repeat)
 
     else:
