@@ -1,13 +1,12 @@
 import secrets
+import string
 
-global get_token
 get_token = True
 
 # Variables of available characters for the password
-lowercase = 'abcdefghijklmnopqrstuvwxyz'
-caps = lowercase.upper()
-numbers = '1234567890'
-characters = '!@#$%^&*()'
+letters = string.ascii_letters
+numbers = string.digits
+characters = string.punctuation
 
 # Sets default variables and prompts user for input
 def setup():
@@ -18,16 +17,16 @@ def setup():
     password = []
     
     # Checks for first time launch
-    if get_token == True:
+    if get_token:
         repeat = int(input('How many characters long do you want your password? '))
         get_token = False
         return main(x, repeat)
     
     # Prompts the user if they would like to generate another password
     else:
-        again = input('Would you like to create another password? y/n: ')
+        again = input('\nWould you like to create another password? y/n: ')
         if again.lower() == 'y':
-            repeat = int(input('How many characters long do you want your password? '))
+            repeat = int(input('\nHow many characters long do you want your password? '))
             return main(x, repeat)
         else:
             exit
@@ -61,18 +60,14 @@ def password_gen(x, repeat):
     global password
 
     # Generates a secure random number
-    num = secrets.randbelow(4)
+    num = secrets.randbelow(3)
 
     # Appends a random character from a variable depending on the number previously generated
     if num == 0:
-        temp = secrets.choice(lowercase)
-        return append_list(temp, x, repeat)
-
-    elif num == 1:
-        temp = secrets.choice(caps)
+        temp = secrets.choice(letters)
         return append_list(temp, x, repeat)
     
-    elif num == 2:
+    elif num == 1:
         temp = secrets.choice(numbers)
         return append_list(temp, x, repeat)
 
