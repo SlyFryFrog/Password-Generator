@@ -12,14 +12,17 @@ characters = '!@#$%^&*()'
 def setup():
     global password
     global get_token
+    
     x = 0
     password = []
-
+    
+    # Checks for first time launch
     if get_token == True:
         repeat = int(input('How many characters long do you want your password? '))
         get_token = False
         return main(x, repeat)
     
+    # Prompts the user if they would like to generate another password
     else:
         again = input('Would you like to create another password? y/n: ')
         if again.lower() == 'y':
