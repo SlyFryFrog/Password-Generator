@@ -1,78 +1,59 @@
 import secrets
 import string
 
-get_token = True
+password = []
+temp = ''
+get_token = False
 
 # Variables of available characters for the password
-letters = string.ascii_letters
-numbers = string.digits
-characters = string.punctuation
+characters = list(string.ascii_letters + string.digits + string.punctuation)
 
 # Sets default variables and prompts user for input
-def setup():
-    global password
-    global get_token
-    
+def setup(password, get_token):
     x = 0
-    password = []
     
     # Checks for first time launch
-    if get_token:
+    if not get_token:
         repeat = int(input('How many characters long do you want your password? '))
-        get_token = False
-        return main(x, repeat)
+
+        return main(x, repeat, password)
     
     # Prompts the user if they would like to generate another password
     else:
         again = input('\nWould you like to create another password? y/n: ')
+
         if again.lower() == 'y':
             repeat = int(input('\nHow many characters long do you want your password? '))
-            return main(x, repeat)
+
+            return main(x, repeat, password)
+
         else:
             exit
 
 
 # Repeats password_gen(x, repeat) until it's reached the set characters
 # After, it joins all the characters in the list into a singular string
-def main(x, repeat):
+def main(x, repeat, password):
 
     if x < repeat:
         x = x + 1
-        return password_gen(x, repeat)
+
+        return append_list(temp, x, repeat, password)
 
     # Prints the password and returns to setup()
     else:
-        global password
         print(''.join(password))
-        return setup()
+        password = []
+        get_token = True
+
+        return setup(password,get_token)
 
 
 # Adds the temp variable to the password list
-def append_list(temp, x, repeat):
-    global password
-    
+def append_list(temp, x, repeat, password):
+    temp = secrets.choice(characters)
     password.append(temp)
-    return main(x, repeat)
 
+    return main(x, repeat, password)
 
-# Generates a list for the password
-def password_gen(x, repeat):
-    global password
-
-    # Generates a secure random number
-    num = secrets.randbelow(3)
-
-    # Appends a random character from a variable depending on the number previously generated
-    if num == 0:
-        temp = secrets.choice(letters)
-        return append_list(temp, x, repeat)
-    
-    elif num == 1:
-        temp = secrets.choice(numbers)
-        return append_list(temp, x, repeat)
-
-    else:
-        temp = secrets.choice(characters)
-        return append_list(temp, x, repeat)
-
-setup()
+setup(password, get_token)
