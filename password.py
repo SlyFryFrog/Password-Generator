@@ -14,7 +14,8 @@ def setup(password, get_token):
     
     # Checks for first time launch
     if not get_token:
-        password_length = int(input('How many characters long do you want your password? '))
+        print('Welcome to the Password Generator made by SlyFryFrog\n')
+        password_length = int(input('Please enter the desired length of your password: '))
 
         return main(password_length, password)
     
@@ -23,7 +24,7 @@ def setup(password, get_token):
         again = input('\nWould you like to create another password? y/n: ')
 
         if again.lower() == 'y':
-            password_length = int(input('\nHow many characters long do you want your password? '))
+            password_length = int(input('\nPlease enter the desired length of your password: '))
 
             return main(password_length, password)
 
@@ -31,19 +32,27 @@ def setup(password, get_token):
             exit
 
 
-# Repeats password_gen(x, repeat) until it's reached the set characters
+# Repeats until it's reached the set characters
 # After, it joins all the characters in the list into a singular string
-def main(passwprd_length, password):
-    for i in range(passwprd_length):
-        temp = secrets.choice(characters)
-        password.append(temp)
-    
+def main(password_length, password):
 
-    # Prints the password and returns to setup()
-    print(''.join(password))
-    password = []
-    get_token = True
+    # Checks if user input is too short
+    if password_length < 8:
+        print(f'Sorry, but {password_length} is too short. Please enter a value greater than 7 to create a more secure password.')
+        get_token = True
+        return setup(password, get_token)
 
-    return setup(password,get_token)
+    else: 
+        for i in range(password_length):
+            temp = secrets.choice(characters)
+            password.append(temp)
+        
+
+        # Prints the password and returns to setup()
+        print(''.join(password))
+        password = []
+        get_token = True
+
+        return setup(password,get_token)
 
 setup(password, get_token)
